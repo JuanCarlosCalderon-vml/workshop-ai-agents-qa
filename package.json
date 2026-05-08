@@ -1,0 +1,14 @@
+{
+  "name": "workshop-ai-agents-qa",
+  "version": "1.0.0",
+  "description": "Workshop: AI Agents & Skills para QA Automation",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.0"
+  }
+}
