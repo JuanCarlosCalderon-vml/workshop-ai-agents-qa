@@ -11,7 +11,7 @@
 ## Setup rápido
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
 npm install
 npx playwright test
