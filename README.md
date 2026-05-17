@@ -9,6 +9,8 @@
 - [Git](https://git-scm.com/downloads)
 - [pnpm](https://pnpm.io/installation) (recomendado) — instalar con: `npm install -g pnpm`
 
+> **Windows:** todos los comandos funcionan igual en PowerShell o CMD. Si `pnpm` falla al instalar globalmente, usa `npx pnpm` como alternativa o `npm` directamente.
+
 ## Setup rápido
 
 ```bash
