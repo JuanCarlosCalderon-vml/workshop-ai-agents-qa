@@ -4,18 +4,25 @@
 
 ## Requisitos previos
 
-- VS Code con GitHub Copilot activo
-- Node.js 20+
-- Git
+- [VS Code](https://code.visualstudio.com/download) con [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) activo (licencia requerida)
+- [Node.js 20+](https://nodejs.org/en/download) (incluye npm)
+- [Git](https://git-scm.com/downloads)
+- [pnpm](https://pnpm.io/installation) (recomendado) — instalar con: `npm install -g pnpm`
 
 ## Setup rápido
 
 ```bash
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
-npm install
-npx playwright test
+pnpm install
+pnpm exec playwright test
 ```
+
+> Si `pnpm` no funciona, usa npm como alternativa:
+> ```bash
+> npm install
+> npx playwright test
+> ```
 
 Si el test pasa ✅, estás listo para el workshop.
 
