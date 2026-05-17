@@ -7,3 +7,4 @@ presentation/
 serve.log
 package-lock.json
 .html
+.github/
