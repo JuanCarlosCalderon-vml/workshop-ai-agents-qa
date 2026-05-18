@@ -16,20 +16,10 @@
 ```bash
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
-corepack enable
-pnpm install
-pnpm exec playwright test
+npm install --ignore-scripts
+npx playwright install
+npx playwright test
 ```
-
-> **¿`corepack` no funciona?** En algunas instalaciones de Node necesitas permisos:
-> ```bash
-> sudo corepack enable   # macOS/Linux
-> ```
-> **¿Prefieres no usar pnpm?** Usa npm directamente:
-> ```bash
-> npm install
-> npx playwright test
-> ```
 
 Si el test pasa ✅, estás listo para el workshop.
 
