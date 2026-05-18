@@ -7,20 +7,25 @@
 - [VS Code](https://code.visualstudio.com/download) con [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) activo (licencia requerida)
 - [Node.js 20+](https://nodejs.org/en/download) (incluye npm)
 - [Git](https://git-scm.com/downloads)
-- [pnpm](https://pnpm.io/installation) (recomendado) — instalar con: `npm install -g pnpm`
+- [pnpm](https://pnpm.io/installation) (recomendado) — se habilita automáticamente con corepack (ver setup)
 
-> **Windows:** todos los comandos funcionan igual en PowerShell o CMD. Si `pnpm` falla al instalar globalmente, usa `npx pnpm` como alternativa o `npm` directamente.
+> **Windows:** todos los comandos funcionan igual en PowerShell o CMD.
 
 ## Setup rápido
 
 ```bash
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
+corepack enable
 pnpm install
 pnpm exec playwright test
 ```
 
-> Si `pnpm` no funciona, usa npm como alternativa:
+> **¿`corepack` no funciona?** En algunas instalaciones de Node necesitas permisos:
+> ```bash
+> sudo corepack enable   # macOS/Linux
+> ```
+> **¿Prefieres no usar pnpm?** Usa npm directamente:
 > ```bash
 > npm install
 > npx playwright test
@@ -49,7 +54,6 @@ Usaremos [JSONPlaceholder](https://jsonplaceholder.typicode.com) — una API RES
 playwright.config.ts    ← Configuración de Playwright
 tests/
   smoke.spec.ts         ← Test base para verificar el setup
-src/                    ← Carpeta para helpers y utilidades
 ```
 
 > Los pasos del ejercicio se darán durante el workshop. 🚀

@@ -1,6 +1,7 @@
 {
   "name": "workshop-ai-agents-qa",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.15.4",
   "description": "Workshop: AI Agents & Skills para QA Automation",
   "scripts": {
     "test": "npx playwright test",
