@@ -4,18 +4,48 @@
 
 ## Requisitos previos
 
-- [VS Code](https://code.visualstudio.com/download) con [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) activo (licencia requerida)
+- [VS Code](https://code.visualstudio.com/download) (última versión)
+- [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) + [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) (extensiones instaladas y sesión iniciada con licencia activa)
 - [Node.js 20+](https://nodejs.org/en/download) (incluye npm)
-- [Git](https://git-scm.com/downloads)
-- [pnpm](https://pnpm.io/installation) (recomendado) — se habilita automáticamente con corepack (ver setup)
+- [Git](https://git-scm.com/downloads) configurado (`git config --global user.name` y `user.email`)
 
 > **Windows:** todos los comandos funcionan igual en PowerShell o CMD.
 
+## Configurar Git (si es la primera vez)
+
+Si nunca has usado Git en tu máquina, abre una terminal y ejecuta:
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu.email@empresa.com"
+```
+
+Para verificar que quedó bien:
+
+```bash
+git config --global --list
+```
+
 ## Setup rápido
+
+### Opción A: Clonar con Git (recomendado)
 
 ```bash
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
+npm install --ignore-scripts
+npx playwright install
+npx playwright test
+```
+
+### Opción B: Descargar ZIP (si no puedes clonar)
+
+1. Descarga el [ZIP del repositorio](https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa/archive/refs/heads/main.zip)
+2. Descomprime la carpeta
+3. Abre la carpeta en VS Code
+4. Abre una terminal en VS Code y ejecuta:
+
+```bash
 npm install --ignore-scripts
 npx playwright install
 npx playwright test
