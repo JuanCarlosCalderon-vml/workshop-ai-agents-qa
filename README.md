@@ -16,8 +16,8 @@
 Si nunca has usado Git en tu máquina, abre una terminal y ejecuta:
 
 ```bash
-git config --global user.name "Tu Nombre"
-git config --global user.email "tu.email@empresa.com"
+git config --global user.name "Nombre"
+git config --global user.email "correo@vml.com"
 ```
 
 Para verificar que quedó bien:
