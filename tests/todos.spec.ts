@@ -10,9 +10,9 @@ test.describe('GET /todos', () => {
     const body = await response.json();
 
     // Assert
-    expect(response.status()).toBe(200, 'Status should be 200');
-    expect(Array.isArray(body)).toBe(true, 'Response should be an array');
-    expect(body.length).toBeGreaterThan(0, 'Should return at least one todo');
+    expect(response.status(), 'Status should be 200').toBe(200);
+    expect(Array.isArray(body), 'Response should be an array').toBe(true);
+    expect(body.length, 'Should return at least one todo').toBeGreaterThan(0);
   });
 
   test('[API] Should return a todo with correct structure', async ({ request }) => {
@@ -24,8 +24,8 @@ test.describe('GET /todos', () => {
     const body = await response.json();
 
     // Assert
-    expect(response.status()).toBe(200, 'Status should be 200');
-    expect(body.id).toBe(todoId, 'Todo ID should match');
+    expect(response.status(), 'Status should be 200').toBe(200);
+    expect(body.id, 'Todo ID should match').toBe(todoId);
     expect(body).toHaveProperty('title');
     expect(body).toHaveProperty('completed');
     expect(body).toHaveProperty('userId');
@@ -39,6 +39,6 @@ test.describe('GET /todos', () => {
     const response = await request.get(`/todos/${invalidId}`);
 
     // Assert
-    expect(response.status()).toBe(404, 'Status should be 404 for non-existent todo');
+    expect(response.status(), 'Status should be 404 for non-existent todo').toBe(404);
   });
 });

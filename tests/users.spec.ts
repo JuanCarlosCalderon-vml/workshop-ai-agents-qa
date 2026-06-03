@@ -10,9 +10,9 @@ test.describe('GET /users', () => {
     const body = await response.json();
 
     // Assert
-    expect(response.status()).toBe(200, 'Status should be 200');
-    expect(Array.isArray(body)).toBe(true, 'Response should be an array');
-    expect(body.length).toBeGreaterThan(0, 'Should return at least one user');
+    expect(response.status(), 'Status should be 200').toBe(200);
+    expect(Array.isArray(body), 'Response should be an array').toBe(true);
+    expect(body.length, 'Should return at least one user').toBeGreaterThan(0);
   });
 
   test('[API] Should return a user by ID', async ({ request }) => {
@@ -24,8 +24,8 @@ test.describe('GET /users', () => {
     const body = await response.json();
 
     // Assert
-    expect(response.status()).toBe(200, 'Status should be 200');
-    expect(body.id).toBe(userId, 'User ID should match');
+    expect(response.status(), 'Status should be 200').toBe(200);
+    expect(body.id, 'User ID should match').toBe(userId);
     expect(body).toHaveProperty('name');
     expect(body).toHaveProperty('email');
     expect(body).toHaveProperty('username');
@@ -39,6 +39,6 @@ test.describe('GET /users', () => {
     const response = await request.get(`/users/${invalidId}`);
 
     // Assert
-    expect(response.status()).toBe(404, 'Status should be 404 for non-existent user');
+    expect(response.status(), 'Status should be 404 for non-existent user').toBe(404);
   });
 });
