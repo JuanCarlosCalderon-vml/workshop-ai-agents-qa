@@ -1,34 +1,23 @@
-# Workshop: AI Agents & Skills para QA Automation
+# Workshop: AI Agents & Skills for QA Automation
 
-> De Copilot genérico a Copilot que trabaja como tu equipo.
+> From generic Copilot to Copilot that works like your team.
 
-## Requisitos previos
+## What you'll learn
 
-- [VS Code](https://code.visualstudio.com/download) (última versión)
-- [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) + [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) (extensiones instaladas y sesión iniciada con licencia activa)
-- [Node.js 20+](https://nodejs.org/en/download) (incluye npm)
-- [Git](https://git-scm.com/downloads) configurado (`git config --global user.name` y `user.email`)
+1. Configure Copilot with **global rules** (`copilot-instructions.md`)
+2. Create **scoped instructions** that apply only to specific file types
+3. Build **reusable skills** (step-by-step procedures)
+4. Design **agents with sub-agents** that generate, review, and run tests
+5. Create **prompt files** for reusable recipes
 
-> **Windows:** todos los comandos funcionan igual en PowerShell o CMD.
+## Prerequisites
 
-## Configurar Git (si es la primera vez)
+- [VS Code](https://code.visualstudio.com/download) (latest version)
+- [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) + [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) (extensions installed with active license)
+- [Node.js 20+](https://nodejs.org/en/download) (includes npm)
+- [Git](https://git-scm.com/downloads) configured (`git config --global user.name` and `user.email`)
 
-Si nunca has usado Git en tu máquina, abre una terminal y ejecuta:
-
-```bash
-git config --global user.name "Nombre"
-git config --global user.email "correo@vml.com"
-```
-
-Para verificar que quedó bien:
-
-```bash
-git config --global --list
-```
-
-## Setup rápido
-
-### Opción A: Clonar con Git (recomendado)
+## Quick setup
 
 ```bash
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
@@ -37,41 +26,63 @@ npm install --ignore-scripts
 npx playwright test
 ```
 
-### Opción B: Descargar ZIP (si no puedes clonar)
+If the test passes ✅, you're ready.
 
-1. Descarga el [ZIP del repositorio](https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa/archive/refs/heads/main.zip)
-2. Descomprime la carpeta
-3. Abre la carpeta en VS Code
-4. Abre una terminal en VS Code y ejecuta:
+## Workshop steps
+
+| Step | What you build | Key concept |
+|------|---------------|-------------|
+| 0 | Generate tests without any config → save as `baseline.spec.ts` | See the problem |
+| 1 | Create `.github/copilot-instructions.md` → regenerate | Global rules |
+| 2 | Create `.github/instructions/spec-files.instructions.md` | Scoped rules |
+| 3 | Create `.github/skills/generate-api-tests/SKILL.md` | Reusable procedures |
+| 4 | Create agents in `.github/agents/` (test-generator, code-reviewer, test-runner, qa-orchestrator) | Roles + delegation |
+| Challenge | Generate full coverage for `/albums` + `/albums/:id/photos` in 1 prompt | Put it all together |
+| Bonus | Create `.github/prompts/generate-api-tests.prompt.md` | Prompt files |
+
+> **Tip:** Open a new chat (Cmd+L / Ctrl+L) before each step so Copilot picks up the new config.
+
+## Branches
+
+| Branch | Description |
+|--------|-------------|
+| `main` | Starter — just smoke test, no AI config |
+| `part1-complete` | Steps 1-3 complete (instructions + skill + sample tests) |
+
+To jump straight to Step 4 (agents):
 
 ```bash
+git checkout part1-complete
 npm install --ignore-scripts
 npx playwright test
 ```
 
-Si el test pasa ✅, estás listo para el workshop.
+## Practice API
 
-## API de práctica
+We use [JSONPlaceholder](https://jsonplaceholder.typicode.com) — a free public REST API (no API key or auth required).
 
-Usaremos [JSONPlaceholder](https://jsonplaceholder.typicode.com) — una API REST pública y gratuita (no requiere API key ni autenticación).
+**Available endpoints:**
 
-**Endpoints disponibles:**
-
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/users` | Lista de usuarios |
-| GET | `/users/{id}` | Usuario por ID |
-| POST | `/users` | Crear usuario |
-| GET | `/posts` | Lista de posts |
-| GET | `/posts/{id}/comments` | Comentarios de un post |
-| POST | `/posts` | Crear post |
+| GET | `/users` | List of users |
+| GET | `/users/{id}` | User by ID |
+| GET | `/posts` | List of posts |
+| GET | `/posts/{id}/comments` | Comments of a post |
+| GET | `/todos` | List of todos |
+| GET | `/albums` | List of albums |
+| GET | `/albums/{id}/photos` | Photos of an album |
 
-## Estructura del proyecto
+## Project structure
 
 ```
-playwright.config.ts    ← Configuración de Playwright
+playwright.config.ts    ← Playwright configuration
 tests/
-  smoke.spec.ts         ← Test base para verificar el setup
+  smoke.spec.ts         ← Base test to verify setup
 ```
 
-> Los pasos del ejercicio se darán durante el workshop. 🚀
+## Resources
+
+- [VS Code Copilot Customization Docs](https://code.visualstudio.com/docs/copilot/copilot-customization)
+- [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents)
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com)
