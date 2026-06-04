@@ -34,7 +34,6 @@ git config --global --list
 git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git
 cd workshop-ai-agents-qa
 npm install --ignore-scripts
-npx playwright install
 npx playwright test
 ```
 
@@ -47,7 +46,6 @@ npx playwright test
 
 ```bash
 npm install --ignore-scripts
-npx playwright install
 npx playwright test
 ```
 
