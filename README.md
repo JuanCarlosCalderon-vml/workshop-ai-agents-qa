@@ -28,6 +28,10 @@ npx playwright test
 
 If the test passes ✅, you're ready.
 
+## Workshop guide
+
+Open [`presentation/workshop.html`](presentation/workshop.html) in your browser for the full step-by-step walkthrough with code examples and explanations.
+
 ## Workshop steps
 
 | Step | What you build | Key concept |
