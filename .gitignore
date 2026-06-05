@@ -3,7 +3,8 @@ dist/
 playwright-report/
 test-results/
 .env
-presentation/
+presentation/index.html
+presentation/part2.html
+presentation/guion*.md
 serve.log
 package-lock.json
-.html

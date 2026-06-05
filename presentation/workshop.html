@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop: AI Agents & Skills for QA Automation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <style>
+    :root {
+      --accent: #58a6ff;
+      --success: #3fb950;
+      --warning: #d29922;
+      --danger: #f85149;
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+    }
+
+    .reveal {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      text-transform: none;
+      font-weight: 700;
+    }
+
+    .reveal h1 {
+      font-size: 2.2em;
+      color: var(--accent);
+    }
+
+    .reveal h2 {
+      font-size: 1.6em;
+      color: var(--accent);
+    }
+
+    .reveal h3 {
+      font-size: 1.2em;
+      color: #c9d1d9;
+    }
+
+    .reveal .subtitle {
+      color: #8b949e;
+      font-size: 0.9em;
+      margin-top: -10px;
+    }
+
+    .compare-columns {
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .compare-col {
+      flex: 1;
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #30363d;
+      text-align: left;
+      font-size: 0.65em;
+    }
+
+    .compare-col.bad { border-color: var(--danger); }
+    .compare-col.good { border-color: var(--success); }
+    .compare-col h4 { margin: 0 0 12px 0; font-size: 1.1em; }
+    .compare-col.bad h4 { color: var(--danger); }
+    .compare-col.good h4 { color: var(--success); }
+
+    .reveal .slides {
+      text-align: center;
+    }
+
+    .reveal .slides section {
+      box-sizing: border-box;
+      padding: 20px 40px;
+    }
+
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .layer {
+      padding: 16px 24px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 0.7em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .layer:hover {
+      transform: translateX(8px);
+    }
+
+    .layer-number {
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .layer-1 { background: linear-gradient(135deg, #1a3a5c, #1c4966); border: 1px solid var(--accent); }
+    .layer-2 { background: linear-gradient(135deg, #2a1a4e, #3a1a5e); border: 1px solid #a371f7; }
+    .layer-3 { background: linear-gradient(135deg, #1a3a2a, #1a4a30); border: 1px solid var(--success); }
+    .layer-4 { background: linear-gradient(135deg, #3a2a1a, #4a3018); border: 1px solid var(--warning); }
+
+    .hands-on-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--bg-dark);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.6em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .prompt-box {
+      background: var(--bg-card);
+      border: 1px solid #30363d;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.7em;
+      color: #c9d1d9;
+      text-align: left;
+      margin: 16px auto;
+      max-width: 680px;
+    }
+
+    .checklist {
+      text-align: left;
+      font-size: 0.7em;
+      max-width: 600px;
+      margin: 16px auto;
+    }
+
+    .checklist li {
+      margin: 8px 0;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li::before {
+      content: "☐ ";
+      color: var(--accent);
+    }
+
+    .reveal table {
+      font-size: 0.7em;
+      margin: 20px auto;
+    }
+
+    .reveal table th {
+      background: var(--bg-card);
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding: 10px 16px;
+    }
+
+    .reveal table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #30363d;
+    }
+
+    .file-tree {
+      background: var(--bg-card);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.5em;
+      text-align: left;
+      display: inline-block;
+      line-height: 1.6;
+    }
+
+    .file-tree .folder { color: var(--accent); }
+    .file-tree .file { color: #c9d1d9; }
+    .file-tree .new { color: var(--success); }
+    .file-tree .comment { color: #8b949e; font-style: italic; }
+
+    .reveal pre {
+      width: 100%;
+      font-size: 0.52em;
+      box-shadow: none;
+    }
+
+    .reveal pre code {
+      max-height: 420px;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .key-question {
+      background: linear-gradient(135deg, #1a2a3a, #1a3a4a);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 24px 32px;
+      font-size: 0.85em;
+      max-width: 600px;
+      margin: 16px auto;
+    }
+
+    .step-indicator {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .step-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #30363d;
+    }
+
+    .step-dot.active { background: var(--accent); }
+    .step-dot.done { background: var(--success); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ==================== TITLE ==================== -->
+      <section>
+        <h1>AI Agents & Skills</h1>
+        <h3>for QA Automation</h3>
+        <p class="subtitle">From generic Copilot to Copilot that works like your team</p>
+        <br>
+        <p style="font-size: 0.6em; color: #8b949e;">Self-paced workshop — follow the steps at your own pace</p>
+      </section>
+
+      <!-- ==================== WHAT YOU'LL LEARN ==================== -->
+      <section>
+        <h2>What you'll learn</h2>
+        <div class="layer-stack">
+          <div class="layer layer-1">
+            <div class="layer-number">1</div>
+            <div>Configure Copilot to follow <strong>your team's conventions</strong> automatically</div>
+          </div>
+          <div class="layer layer-2">
+            <div class="layer-number">2</div>
+            <div>Create <strong>scoped rules</strong> that only apply to specific file types</div>
+          </div>
+          <div class="layer layer-3">
+            <div class="layer-number">3</div>
+            <div>Build <strong>reusable skills</strong> (step-by-step procedures)</div>
+          </div>
+          <div class="layer layer-4">
+            <div class="layer-number">4</div>
+            <div>Design <strong>agents with sub-agents</strong> that generate, review, and run tests</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PREREQUISITES ==================== -->
+      <section>
+        <h2>Prerequisites</h2>
+        <ul style="font-size: 0.75em; text-align: left; display: inline-block;">
+          <li><a href="https://code.visualstudio.com/download" target="_blank">VS Code</a> (latest version)</li>
+          <li><a href="https://marketplace.visualstudio.com/items?itemName=GitHub.copilot" target="_blank">GitHub Copilot</a> + <a href="https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat" target="_blank">Copilot Chat</a> (active license)</li>
+          <li><a href="https://nodejs.org" target="_blank">Node.js 20+</a></li>
+          <li>Git configured (<code>git config --global user.name</code> and <code>user.email</code>)</li>
+        </ul>
+        <br>
+        <div style="background: rgba(78, 205, 196, 0.1); border: 1px solid var(--success); border-radius: 12px; padding: 16px; margin: 16px auto; max-width: 600px;">
+          <p style="font-size: 0.7em; margin: 5px 0; color: var(--success);">We'll test against <strong>JSONPlaceholder</strong> — a free public REST API. No API key needed.</p>
+          <p style="font-size: 0.6em; margin: 5px 0; opacity: 0.8;"><code>https://jsonplaceholder.typicode.com</code></p>
+        </div>
+      </section>
+
+      <!-- ==================== THE PROBLEM ==================== -->
+      <section>
+        <section>
+          <h2>The Problem</h2>
+          <p style="font-size: 0.85em;">You ask Copilot to generate tests...</p>
+          <br>
+          <div class="compare-columns">
+            <div class="compare-col bad">
+              <h4>❌ What you get</h4>
+              <ul>
+                <li>Generic code</li>
+                <li>No team conventions</li>
+                <li>Everyone gets something different</li>
+                <li>You have to review and fix everything</li>
+              </ul>
+            </div>
+            <div class="compare-col good fragment">
+              <h4>✅ What you want</h4>
+              <ul>
+                <li>Code aligned to your team</li>
+                <li>Same conventions every time</li>
+                <li>Consistent output for everyone</li>
+                <li>Ready to use as-is</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Real example</h2>
+          <div class="compare-columns">
+            <div class="compare-col bad">
+              <h4>❌ Without configuration</h4>
+              <pre><code class="language-typescript">import { test, expect } from '@playwright/test';
+
+test('get users', async ({ request }) => {
+  const response = await request.get(
+    'https://jsonplaceholder.typicode.com/users'
+  );
+  expect(response.status()).toBe(200);
+  const data = await response.json();
+  expect(data.length).toBeGreaterThan(0);
+});</code></pre>
+            </div>
+            <div class="compare-col good fragment">
+              <h4>✅ With configuration</h4>
+              <pre><code class="language-typescript">import { test, expect } from '@playwright/test';
+
+test.describe('Users API', () => {
+  test('[API] Should return list of users',
+    async ({ request }) => {
+    // Arrange
+    const endpoint = '/users';
+
+    // Act
+    const response = await request.get(endpoint);
+    const body = await response.json();
+
+    // Assert
+    expect(response.status(),
+      'Status should be 200').toBe(200);
+    expect(Array.isArray(body),
+      'Response should be an array')
+      .toBeTruthy();
+  });
+});</code></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ==================== THE 4 LAYERS ==================== -->
+      <section>
+        <h2>The 4 configuration layers</h2>
+        <div class="layer-stack">
+          <div class="layer layer-1 fragment">
+            <div class="layer-number">1</div>
+            <div>
+              <strong>copilot-instructions.md</strong><br>
+              <span style="opacity:0.7">Global project rules</span>
+            </div>
+          </div>
+          <div class="layer layer-2 fragment">
+            <div class="layer-number">2</div>
+            <div>
+              <strong>.instructions.md</strong><br>
+              <span style="opacity:0.7">Scoped rules by file pattern</span>
+            </div>
+          </div>
+          <div class="layer layer-3 fragment">
+            <div class="layer-number">3</div>
+            <div>
+              <strong>Skills (SKILL.md)</strong><br>
+              <span style="opacity:0.7">Reusable step-by-step procedures</span>
+            </div>
+          </div>
+          <div class="layer layer-4 fragment">
+            <div class="layer-number">4</div>
+            <div>
+              <strong>Agents (.agent.md)</strong><br>
+              <span style="opacity:0.7">Roles with tools and constraints</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== STEP 0: BASELINE ==================== -->
+      <section>
+        <section>
+          <div class="hands-on-badge">Hands-on</div>
+          <h2>Step 0 — Baseline</h2>
+          <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <p style="font-size: 0.8em;">Without configuration, let's see what Copilot generates</p>
+        </section>
+
+        <section>
+          <h3>1. Setup</h3>
+          <div class="prompt-box">
+            $ git clone https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa.git<br>
+            $ cd workshop-ai-agents-qa<br>
+            $ npm install --ignore-scripts<br>
+            $ npx playwright test
+          </div>
+          <p style="font-size: 0.7em; color: var(--success);">If the test passes ✅, you're ready</p>
+        </section>
+
+        <section>
+          <h3>2. Ask Copilot (no config)</h3>
+          <div class="prompt-box">
+            💬 "Generate Playwright tests for the GET /users endpoint of JSONPlaceholder.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Save the file as tests/baseline.spec.ts"
+          </div>
+          <br>
+          <ul class="checklist">
+            <li>Does it use <code>test.describe</code>?</li>
+            <li>Does it have AAA comments (Arrange/Act/Assert)?</li>
+            <li>Do <code>expect()</code> calls have error messages?</li>
+            <li>Does it use the <code>baseURL</code> from config or hardcode?</li>
+          </ul>
+          <p style="font-size: 0.65em; color: var(--warning);">⚠️ Save as <code>tests/baseline.spec.ts</code> — you'll compare it later</p>
+        </section>
+      </section>
+
+      <!-- ==================== STEP 1: COPILOT-INSTRUCTIONS ==================== -->
+      <section>
+        <section>
+          <div class="hands-on-badge">Hands-on</div>
+          <h2>Step 1 — copilot-instructions.md</h2>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <p style="font-size: 0.8em;">Global rules for the entire project</p>
+        </section>
+
+        <section>
+          <h3>What is it?</h3>
+          <p style="font-size: 0.75em;">A Markdown file at <code>.github/copilot-instructions.md</code> that defines project conventions.</p>
+          <p style="font-size: 0.75em;">Copilot reads it <strong>automatically</strong> on every interaction.</p>
+          <br>
+          <div class="file-tree">
+            <span class="folder">📁 .github/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 copilot-instructions.md</span> <span class="comment">← CREATE THIS</span>
+          </div>
+        </section>
+
+        <section>
+          <h3>Content</h3>
+          <pre><code class="language-markdown"># Copilot Instructions
+
+<!-- Global rules that apply to every Copilot interaction in this repo -->
+
+## Project
+<!-- Tell Copilot what this repo is so it picks the right libraries -->
+API test automation framework using Playwright + TypeScript.
+
+## Rules
+<!-- Each rule steers generated code toward team conventions -->
+- Use strict TypeScript, never `any`
+- Tests follow the AAA pattern (Arrange-Act-Assert) with comments
+- Every `expect()` must include a custom error message as the
+  second argument of expect: `expect(value, 'message').toBe(expected)`
+  — never as a second argument of the matcher
+- Use `const` by default, `let` only when reassignment is needed
+- No `console.log()` in tests
+- Use `import type` for type-only imports</code></pre>
+        </section>
+
+        <section>
+          <h3>Now repeat the request</h3>
+          <p style="font-size: 0.7em; color: var(--warning);">⚠️ Open a <strong>new chat</strong> (Cmd+L / Ctrl+L)</p>
+          <div class="prompt-box">
+            💬 "Generate Playwright tests for the GET /users endpoint of JSONPlaceholder.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Save the file as tests/users.spec.ts"
+          </div>
+          <br>
+          <p style="font-size: 0.75em;"><strong>What changed?</strong> Compare <code>users.spec.ts</code> vs <code>baseline.spec.ts</code></p>
+        </section>
+      </section>
+
+      <!-- ==================== STEP 2: SCOPED INSTRUCTIONS ==================== -->
+      <section>
+        <section>
+          <div class="hands-on-badge">Hands-on</div>
+          <h2>Step 2 — Scoped Instructions</h2>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <p style="font-size: 0.8em;">Rules that only apply to files matching a pattern</p>
+        </section>
+
+        <section>
+          <h3>What is it?</h3>
+          <p style="font-size: 0.75em;"><code>.instructions.md</code> files that activate only for certain files.</p>
+          <p style="font-size: 0.75em;">The <code>applyTo</code> frontmatter defines a glob — Copilot only reads these rules when editing matching files.</p>
+          <br>
+          <div class="file-tree">
+            <span class="folder">📁 .github/</span><br>
+            <span class="file">&nbsp;&nbsp;📄 copilot-instructions.md</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 instructions/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 spec-files.instructions.md</span> <span class="comment">← CREATE</span>
+          </div>
+        </section>
+
+        <section>
+          <h3>Content</h3>
+          <pre><code class="language-yaml">---
+applyTo: "tests/**/*.spec.ts"
+---</code></pre>
+          <pre><code class="language-markdown"># Spec Files
+
+## Spec file structure
+- Each spec file has a `test.describe` wrapping all tests,
+  named after the endpoint
+- Test labels: '[API] Should {expected behavior}'
+- Tests use the AAA pattern with comments
+- No complex logic in spec files
+- Group related tests in the same describe block
+
+## Naming
+- Files: `{feature}.spec.ts` (kebab-case)
+- Describes: name of the resource or endpoint
+- Tests: start with "Should" + expected behavior</code></pre>
+        </section>
+
+        <section>
+          <h3>Try with a different endpoint</h3>
+          <p style="font-size: 0.7em; color: var(--warning);">⚠️ New chat (Cmd+L / Ctrl+L)</p>
+          <div class="prompt-box">
+            💬 "Generate Playwright tests for the GET /posts endpoint of JSONPlaceholder"
+          </div>
+          <br>
+          <ul class="checklist">
+            <li>Does it have labels <code>[API] Should ...</code>?</li>
+            <li>Does it group tests with <code>test.describe</code>?</li>
+            <li>Is the file named <code>posts.spec.ts</code>?</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ==================== STEP 3: SKILLS ==================== -->
+      <section>
+        <section>
+          <div class="hands-on-badge">Hands-on</div>
+          <h2>Step 3 — Your first Skill</h2>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+          </div>
+          <p style="font-size: 0.8em;">Reusable step-by-step procedures</p>
+        </section>
+
+        <section>
+          <h3>What is a Skill?</h3>
+          <p style="font-size: 0.75em;">A <code>SKILL.md</code> file that defines a <strong>procedure</strong> for Copilot to follow.</p>
+          <br>
+          <div class="compare-columns">
+            <div class="compare-col" style="border-color: #a371f7;">
+              <h4 style="color: #a371f7;">📋 Instructions</h4>
+              <p>"Always use the AAA pattern"</p>
+              <p style="opacity:0.6">→ WHAT to do</p>
+            </div>
+            <div class="compare-col" style="border-color: var(--success);">
+              <h4 style="color: var(--success);">🛠️ Skill</h4>
+              <p>"1. Identify the endpoint<br>2. Create the file<br>3. Generate the describe..."</p>
+              <p style="opacity:0.6">→ HOW to do it</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Structure</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/</span><br>
+            <span class="file">&nbsp;&nbsp;📄 copilot-instructions.md</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 instructions/</span><br>
+            <span class="file">&nbsp;&nbsp;&nbsp;&nbsp;📄 spec-files.instructions.md</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 skills/</span><br>
+            <span class="folder new">&nbsp;&nbsp;&nbsp;&nbsp;📁 generate-api-tests/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📄 SKILL.md</span> <span class="comment">← CREATE</span>
+          </div>
+        </section>
+
+        <section>
+          <h3>Skill content</h3>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+name: generate-api-tests
+description: Generates complete test suites for JSONPlaceholder REST endpoints
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown"># Generate API Tests
+
+## Procedure
+1. Identify the endpoint and HTTP method
+2. Create the file `tests/{resource}.spec.ts`
+3. Add a `test.describe` block named after the endpoint
+4. Generate tests for:
+   - Happy path (status 200, correct structure)
+   - Resource not found (404 when applicable)
+   - Response field validation
+5. Each test follows the AAA pattern with comments
+6. Every `expect()` includes a custom error message
+7. Labels: `[API] Should {behavior}`
+8. Run the tests with `npx playwright test {file}`</code></pre>
+        </section>
+
+        <section>
+          <h3>Invoke the skill</h3>
+          <p style="font-size: 0.7em; color: var(--warning);">⚠️ New chat (Cmd+L / Ctrl+L)</p>
+          <div class="prompt-box">
+            💬 "Use the skill generate-api-tests to generate tests for the GET /todos endpoint"
+          </div>
+          <br>
+          <ul class="checklist">
+            <li>Did it create <code>tests/todos.spec.ts</code>?</li>
+            <li>Does it include happy path, 404, and validation?</li>
+            <li>Does it use <code>[API] Should ...</code> labels?</li>
+          </ul>
+          <br>
+          <div class="prompt-box">
+            $ npx playwright test tests/todos.spec.ts
+          </div>
+        </section>
+      </section>
+
+      <!-- ==================== STEP 4: AGENTS ==================== -->
+      <section>
+        <section>
+          <div class="hands-on-badge">Hands-on</div>
+          <h2>Step 4 — Agents & Sub-agents</h2>
+          <div class="step-indicator">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot active"></div>
+          </div>
+          <p style="font-size: 0.8em;">From a simple agent to a system that generates, reviews, and runs tests</p>
+        </section>
+
+        <section>
+          <h3>What is an Agent?</h3>
+          <div class="compare-columns">
+            <div class="compare-col" style="border-color: var(--success);">
+              <h4 style="color: var(--success);">Skill</h4>
+              <p>A step-by-step procedure</p>
+              <p style="opacity:0.6">"Follow these steps to generate tests"</p>
+              <p style="font-size: 0.85em; margin-top: 8px; color: #8b949e;">No tool restrictions or defined role</p>
+            </div>
+            <div class="compare-col" style="border-color: var(--warning);">
+              <h4 style="color: var(--warning);">Agent</h4>
+              <p>A role with <strong>boundaries</strong></p>
+              <p style="opacity:0.6">"You are a QA engineer with specific tools, restrictions, and your own judgment"</p>
+              <p style="font-size: 0.85em; margin-top: 8px; color: #8b949e;">Decides <em>how</em> to solve, not just executes steps</p>
+            </div>
+          </div>
+          <p class="fragment" style="font-size: 0.65em; margin-top: 12px; color: var(--accent);">Key: an agent has <strong>autonomy</strong> within defined limits. A skill is deterministic.</p>
+        </section>
+
+        <section>
+          <h3>Why limit tools?</h3>
+          <table style="font-size: 0.65em; margin-top: 12px;">
+            <thead>
+              <tr><th>Agent</th><th>Tools</th><th>Reason</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: var(--success);">test-generator</td>
+                <td><code>read, edit, search</code></td>
+                <td>Needs to read patterns and write files. Should not execute anything.</td>
+              </tr>
+              <tr>
+                <td style="color: #a371f7;">code-reviewer</td>
+                <td><code>read, search</code></td>
+                <td>Only analyzes. If it could edit, it would "fix" without supervision.</td>
+              </tr>
+              <tr>
+                <td style="color: var(--warning);">test-runner</td>
+                <td><code>terminal, read</code></td>
+                <td>Executes and reads output. Should not modify tests to make them pass.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="fragment" style="font-size: 0.6em; color: #8b949e;">If an agent has <em>all</em> tools, there's no separation of responsibilities. The output becomes unpredictable.</p>
+        </section>
+
+        <section>
+          <h3>The Orchestrator</h3>
+          <p style="font-size: 0.7em;">A coordinator agent delegates tasks to specialized sub-agents</p>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+            <div style="background: var(--bg-card); border: 2px solid var(--accent); border-radius: 12px; padding: 12px 16px; text-align: center; font-size: 0.6em;">
+              <strong style="color: var(--accent);">QA Orchestrator</strong><br>
+              <span style="opacity:0.7">Coordinates the entire flow</span>
+            </div>
+            <span style="font-size: 1.2em;">→</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="background: var(--bg-card); border: 1px solid var(--success); border-radius: 8px; padding: 8px 12px; font-size: 0.55em;">
+                <strong>test-generator</strong><br><span style="opacity:0.6">Generates tests</span>
+              </div>
+              <div style="background: var(--bg-card); border: 1px solid #a371f7; border-radius: 8px; padding: 8px 12px; font-size: 0.55em;">
+                <strong>code-reviewer</strong><br><span style="opacity:0.6">Reviews code</span>
+              </div>
+              <div style="background: var(--bg-card); border: 1px solid var(--warning); border-radius: 8px; padding: 8px 12px; font-size: 0.55em;">
+                <strong>test-runner</strong><br><span style="opacity:0.6">Runs tests</span>
+              </div>
+            </div>
+          </div>
+          <p class="fragment" style="font-size: 0.6em; margin-top: 12px; color: #8b949e;">The orchestrator has <code>agents:</code> in its frontmatter — this gives it permission to delegate. Without it, it can't invoke sub-agents.</p>
+        </section>
+
+        <section>
+          <h3>Feedback loop</h3>
+          <p style="font-size: 0.65em; color: #8b949e;">The orchestrator isn't linear — it implements a correction cycle:</p>
+          <div style="background: var(--bg-card); border: 1px solid #30363d; border-radius: 12px; padding: 16px; font-size: 0.6em; text-align: left; max-width: 600px; margin: 12px auto; font-family: monospace; line-height: 1.8;">
+            <span style="color: var(--success);">1.</span> test-generator → generates tests<br>
+            <span style="color: #a371f7;">2.</span> code-reviewer → analyzes → <span style="color: var(--danger);">finds issues</span><br>
+            <span style="color: var(--success);">3.</span> test-generator → fixes (receives reviewer feedback)<br>
+            <span style="color: #a371f7;">4.</span> code-reviewer → re-analyzes → <span style="color: var(--success);">OK</span><br>
+            <span style="color: var(--warning);">5.</span> test-runner → executes → reports result
+          </div>
+          <p class="fragment" style="font-size: 0.6em;">This is what differentiates an orchestrator from a sequential script: <strong>it makes decisions at runtime</strong>.</p>
+        </section>
+
+        <section>
+          <h3>4a. Sub-agent: Test Generator</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/agents/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 test-generator.agent.md</span> <span class="comment">← CREATE</span>
+          </div>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+name: test-generator
+description: Generates test suites for REST endpoints
+user-invocable: false
+tools: ["read", "edit", "search"]
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown"># Test Generator
+## Role
+You are a QA engineer that generates test suites.
+## Instructions
+1. Read files in tests/ to understand existing patterns
+2. Load the generate-api-tests skill
+3. Generate complete and executable tests</code></pre>
+          <p style="font-size: 0.6em; color: #8b949e;"><code>user-invocable: false</code> → Only accessible as a sub-agent</p>
+        </section>
+
+        <section>
+          <h3>4b. Sub-agent: Code Reviewer</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/agents/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 code-reviewer.agent.md</span> <span class="comment">← CREATE</span>
+          </div>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+name: code-reviewer
+description: Reviews tests looking for errors and improvements
+user-invocable: false
+tools: ["read", "search"]
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown"># Code Reviewer
+## Role
+You review Playwright tests for quality and convention compliance.
+## Checklist
+- Does it follow the AAA pattern?
+- Does every expect() have a custom message?
+- Does it use baseURL from config (no hardcoded URLs)?
+- Does it validate response structure?</code></pre>
+          <p style="font-size: 0.6em; color: #8b949e;">Only <code>read</code> + <code>search</code> → cannot modify files</p>
+        </section>
+
+        <section>
+          <h3>4c. Sub-agent: Test Runner</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/agents/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 test-runner.agent.md</span> <span class="comment">← CREATE</span>
+          </div>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+name: test-runner
+description: Runs tests and reports results
+user-invocable: false
+tools: ["terminal", "read"]
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown"># Test Runner
+## Role
+You run Playwright tests autonomously.
+## Instructions
+1. Run: npx playwright test {file}
+2. Analyze the terminal output
+3. Report: passed, failed, and errors
+4. If there are failures, suggest root cause</code></pre>
+          <p style="font-size: 0.6em; color: #8b949e;"><code>terminal</code> → can run commands autonomously</p>
+        </section>
+
+        <section>
+          <h3>4d. The Orchestrator</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/agents/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 qa-orchestrator.agent.md</span> <span class="comment">← CREATE</span>
+          </div>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+name: qa-orchestrator
+description: Orchestrates test generation, review, and execution
+tools: ["agent", "read", "search"]
+agents: ["test-generator", "code-reviewer", "test-runner"]
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown"># QA Orchestrator
+## Flow
+1. Use test-generator to create the tests
+2. Use code-reviewer to review the code
+3. If there are issues, use test-generator to fix them
+4. Use test-runner to execute and validate
+5. Report the final result</code></pre>
+        </section>
+
+        <section>
+          <h3>Invoke the orchestrator</h3>
+          <div class="prompt-box">
+            @qa-orchestrator generate, review, and run tests for the endpoint GET /posts/{id}/comments
+          </div>
+          <br>
+          <ul class="checklist" style="font-size: 0.75em;">
+            <li>Did it delegate generation to the test-generator sub-agent?</li>
+            <li>Did the code-reviewer find anything to fix?</li>
+            <li>Did the test-runner execute the tests?</li>
+            <li>Did you get a consolidated final report?</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ==================== THE CHALLENGE ==================== -->
+      <section>
+        <section>
+          <h2>Challenge: "Full Coverage Agent"</h2>
+          <p style="font-size: 0.8em;">Put <strong>all layers</strong> to the test with a scenario that requires judgment</p>
+          <br>
+          <div style="background: var(--bg-card); border: 2px solid var(--accent); border-radius: 12px; padding: 20px; text-align: left; font-size: 0.7em;">
+            <p style="color: var(--accent); font-weight: bold; margin-bottom: 10px;">Request:</p>
+            <p><em>"We need a test suite for the endpoints <code>/albums</code> and <code>/albums/:id/photos</code>. It must cover: happy path, resource not found, structure validation, <strong>and the relationship between both resources</strong> (an album has N photos)."</em></p>
+          </div>
+        </section>
+
+        <section>
+          <h3>Acceptance criteria</h3>
+          <table style="font-size: 0.65em;">
+            <thead>
+              <tr><th>Requirement</th><th>Detail</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Functional coverage</td>
+                <td>GET list, GET by id, GET 404, GET nested (photos of an album)</td>
+              </tr>
+              <tr>
+                <td>Contract validation</td>
+                <td>Verify types of each field (id: number, title: string, url: string)</td>
+              </tr>
+              <tr>
+                <td>Resource relationship</td>
+                <td><code>/albums/1/photos</code> should return photos where <code>albumId === 1</code></td>
+              </tr>
+              <tr>
+                <td>Team conventions</td>
+                <td>AAA pattern, messages in expect, baseURL, descriptive names</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>The constraint</h3>
+          <div class="compare-columns">
+            <div class="compare-col" style="border-color: var(--success);">
+              <h4 style="color: var(--success);">You can</h4>
+              <ul style="font-size: 0.9em;">
+                <li>Use all 4 layers you configured</li>
+                <li>Invoke agents and skills</li>
+                <li>Adjust your config files before starting</li>
+              </ul>
+            </div>
+            <div class="compare-col" style="border-color: var(--danger);">
+              <h4 style="color: var(--danger);">You cannot</h4>
+              <ul style="font-size: 0.9em;">
+                <li>Write test code by hand</li>
+                <li>Copy tests from another file</li>
+                <li>Give more than <strong>1 prompt</strong> to the orchestrator</li>
+              </ul>
+            </div>
+          </div>
+          <br>
+          <p style="font-size: 0.65em; color: #8b949e;">One single prompt. If your config is good, it should be enough.</p>
+        </section>
+
+        <section>
+          <h3>Self-evaluation</h3>
+          <table style="font-size: 0.65em;">
+            <thead>
+              <tr><th>Criterion</th><th>Points</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tests passed on the first attempt (no correction cycle from the agent)</td>
+                <td>+2</td>
+              </tr>
+              <tr>
+                <td>Covers all 4 scenarios (list, byId, 404, nested) without intervention</td>
+                <td>+2</td>
+              </tr>
+              <tr>
+                <td>Validates that <code>/albums/1/photos</code> returns photos with <code>albumId === 1</code></td>
+                <td>+2</td>
+              </tr>
+              <tr>
+                <td>Generated code follows conventions from the first version</td>
+                <td>+2</td>
+              </tr>
+              <tr>
+                <td>Achieved with 1 single prompt</td>
+                <td>+2</td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <p class="fragment" style="font-size: 0.7em; color: var(--success);">Every point you lose is a gap in your configuration, not in the prompt.</p>
+        </section>
+      </section>
+
+      <!-- ==================== PROMPT FILES ==================== -->
+      <section>
+        <section>
+          <h2>Prompt Files</h2>
+          <p style="font-size: 0.8em;">Reusable recipes that you invoke from the chat</p>
+          <br>
+          <div class="compare-columns">
+            <div class="compare-col" style="border-color: var(--warning);">
+              <h4 style="color: var(--warning);">Without prompt file</h4>
+              <p style="font-size: 0.85em;">You write the same long prompt every time you want to generate tests</p>
+            </div>
+            <div class="compare-col" style="border-color: var(--success);">
+              <h4 style="color: var(--success);">With prompt file</h4>
+              <p style="font-size: 0.85em;">Save it once → invoke with <code>/</code> from the chat</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Create a Prompt File</h3>
+          <div class="file-tree">
+            <span class="folder">📁 .github/prompts/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 generate-api-tests.prompt.md</span> <span class="comment">← CREATE</span>
+          </div>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-yaml">---
+agent: agent
+description: "Generates API tests for a REST endpoint"
+---</code></pre>
+          <pre style="font-size: 0.5em; text-align: left;"><code class="language-markdown">Generate API tests for the endpoint: {{endpoint}}
+
+Requirements:
+- Use the skill generate-api-tests
+- Include happy path, error 404, and structure validation
+- Run the tests when done with npx playwright test</code></pre>
+        </section>
+
+        <section>
+          <h3>Invoke the Prompt File</h3>
+          <p style="font-size: 0.7em;">In the Copilot chat, type <code>/</code> and select your prompt:</p>
+          <div class="prompt-box" style="font-size: 0.85em;">
+            / generate-api-tests<br>
+            <span style="opacity: 0.6;">endpoint: GET /photos</span>
+          </div>
+          <br>
+          <ul style="font-size: 0.65em; text-align: left; display: inline-block;">
+            <li><code>{{endpoint}}</code> becomes a field you fill when invoking</li>
+            <li>You can have multiple prompt files for different tasks</li>
+            <li>The prompt file inherits the project's instructions and skills</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Prompt File ideas for QA</h3>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <div style="background: var(--bg-card); border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; font-size: 0.6em; text-align: left;">
+              <strong style="color: var(--accent);">generate-api-tests.prompt.md</strong><br>
+              <span style="opacity: 0.7;">Generates a full test suite for an endpoint</span>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; font-size: 0.6em; text-align: left;">
+              <strong style="color: var(--success);">review-test.prompt.md</strong><br>
+              <span style="opacity: 0.7;">Reviews a test file and suggests improvements</span>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; font-size: 0.6em; text-align: left;">
+              <strong style="color: var(--warning);">debug-failure.prompt.md</strong><br>
+              <span style="opacity: 0.7;">Analyzes a failed test and suggests a fix</span>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; font-size: 0.6em; text-align: left;">
+              <strong style="color: #a371f7;">generate-test-data.prompt.md</strong><br>
+              <span style="opacity: 0.7;">Generates test data for a schema</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ==================== DEBUGGING ==================== -->
+      <section>
+        <section>
+          <h2>When the agent doesn't do what you expect</h2>
+          <p style="font-size: 0.75em;">Debugging mental model for Copilot customization</p>
+        </section>
+
+        <section>
+          <h3>Layer-by-layer diagnosis</h3>
+          <p style="font-size: 0.65em; color: #8b949e; margin-bottom: 12px;">If the output isn't what you expected, investigate bottom-up:</p>
+          <table style="font-size: 0.6em;">
+            <thead>
+              <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ignores global conventions</td>
+                <td><code>copilot-instructions.md</code> not in <code>.github/</code></td>
+                <td>Verify exact path</td>
+              </tr>
+              <tr>
+                <td>Applies rules to wrong files</td>
+                <td><code>applyTo</code> glob is wrong</td>
+                <td>Test the glob against actual files</td>
+              </tr>
+              <tr>
+                <td>Skill doesn't activate</td>
+                <td>Skill name doesn't match invocation</td>
+                <td>Verify folder name vs how you reference it</td>
+              </tr>
+              <tr>
+                <td>Agent doesn't delegate to sub-agents</td>
+                <td>Missing <code>agents: [...]</code> in frontmatter</td>
+                <td>Add explicit sub-agent list</td>
+              </tr>
+              <tr>
+                <td>Agent modifies what it shouldn't</td>
+                <td>Tools are too permissive</td>
+                <td>Restrict to only necessary tools</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>Principle: explicit config > long prompts</h3>
+          <div class="compare-columns">
+            <div class="compare-col" style="border-color: var(--danger);">
+              <h4 style="color: var(--danger);">Signs of bad config</h4>
+              <ul style="font-size: 0.9em;">
+                <li>You repeat instructions in every prompt</li>
+                <li>You need 3+ prompts for a correct result</li>
+                <li>Output varies a lot between runs</li>
+                <li>You copy the output and edit it manually</li>
+              </ul>
+            </div>
+            <div class="compare-col" style="border-color: var(--success);">
+              <h4 style="color: var(--success);">Signs of good config</h4>
+              <ul style="font-size: 0.9em;">
+                <li>A short prompt generates correct output</li>
+                <li>Anyone on the team gets similar results</li>
+                <li>Output is consistent between runs</li>
+                <li>You don't need to edit the generated code</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ==================== BEFORE VS AFTER ==================== -->
+      <section>
+        <h2>Before vs. After</h2>
+        <table style="font-size: 0.65em;">
+          <thead>
+            <tr>
+              <th>Without configuration</th>
+              <th>With configuration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>❌ Generic code</td>
+              <td>✅ Code aligned to your team</td>
+            </tr>
+            <tr>
+              <td>❌ Everyone gets something different</td>
+              <td>✅ Everyone gets the same standard</td>
+            </tr>
+            <tr>
+              <td>❌ Manual review of all code</td>
+              <td>✅ Automated review by sub-agent</td>
+            </tr>
+            <tr>
+              <td>❌ Manual test execution</td>
+              <td>✅ Autonomous execution by sub-agent</td>
+            </tr>
+            <tr>
+              <td>❌ Knowledge in one person's head</td>
+              <td>✅ Knowledge codified in skills and agents</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================== FINAL STRUCTURE ==================== -->
+      <section>
+        <h2>Final project structure</h2>
+        <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;">
+          <div class="file-tree">
+            <span class="folder">📁 .github/</span><br>
+            <span class="new">&nbsp;&nbsp;📄 copilot-instructions.md</span> <span class="comment">← Step 1</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 instructions/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 spec-files.instructions.md</span> <span class="comment">← Step 2</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 skills/generate-api-tests/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 SKILL.md</span> <span class="comment">← Step 3</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 agents/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 test-generator.agent.md</span> <span class="comment">← Step 4</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 code-reviewer.agent.md</span> <span class="comment">← Step 4</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 test-runner.agent.md</span> <span class="comment">← Step 4</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 qa-orchestrator.agent.md</span> <span class="comment">← Orchestrator</span><br>
+            <span class="folder">&nbsp;&nbsp;📁 prompts/</span><br>
+            <span class="new">&nbsp;&nbsp;&nbsp;&nbsp;📄 generate-api-tests.prompt.md</span> <span class="comment">← Prompt File</span>
+          </div>
+          <div class="file-tree">
+            <span class="folder">📁 tests/</span><br>
+            <span class="file">&nbsp;&nbsp;📄 smoke.spec.ts</span> <span class="comment">← Setup</span><br>
+            <span class="file">&nbsp;&nbsp;📄 baseline.spec.ts</span> <span class="comment">← Step 0 (no config)</span><br>
+            <span class="file">&nbsp;&nbsp;📄 users.spec.ts</span> <span class="comment">← Step 1 (with config)</span><br>
+            <span class="file">&nbsp;&nbsp;📄 posts.spec.ts</span> <span class="comment">← Step 2</span><br>
+            <span class="file">&nbsp;&nbsp;📄 todos.spec.ts</span> <span class="comment">← Step 3</span><br>
+            <span class="new">&nbsp;&nbsp;📄 comments.spec.ts</span> <span class="comment">← Step 4</span><br>
+            <span class="new">&nbsp;&nbsp;📄 albums.spec.ts</span> <span class="comment">← Challenge</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== REFLECTION ==================== -->
+      <section>
+        <h2>Key takeaway</h2>
+        <div class="key-question">
+          <p>How much time would you save if every new test <strong>automatically</strong> followed your project's standards?</p>
+        </div>
+        <br>
+        <div class="fragment">
+          <p style="font-size: 0.75em;">This isn't about "generating code faster".</p>
+          <p style="font-size: 0.75em;">It's about <strong>codifying team knowledge</strong> into versionable, auditable, and evolvable files.</p>
+        </div>
+      </section>
+
+      <!-- ==================== RESOURCES ==================== -->
+      <section>
+        <h2>Resources</h2>
+        <br>
+        <div style="font-size: 0.7em; color: #8b949e; text-align: left; display: inline-block;">
+          <p>📖 <a href="https://code.visualstudio.com/docs/copilot/copilot-customization" target="_blank">VS Code Copilot Customization Docs</a></p>
+          <p>🤖 <a href="https://code.visualstudio.com/docs/copilot/agents/subagents" target="_blank">Subagents in VS Code</a></p>
+          <p>💻 <a href="https://github.com/JuanCarlosCalderon-vml/workshop-ai-agents-qa" target="_blank">Workshop Repository</a></p>
+          <p>🌐 <a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder API</a></p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      center: true,
+      width: 1280,
+      height: 720,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      plugins: [RevealHighlight, RevealNotes],
+    });
+  </script>
+</body>
+</html>
