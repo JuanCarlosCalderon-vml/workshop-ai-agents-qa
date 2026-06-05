@@ -48,11 +48,21 @@ If the test passes ✅, you're ready.
 |--------|-------------|
 | `main` | Starter — just smoke test, no AI config |
 | `part1-complete` | Steps 1-3 complete (instructions + skill + sample tests) |
+| `part2-complete` | Everything: agents + prompt file + all config layers |
 
-To jump straight to Step 4 (agents):
+To jump to a specific step:
 
 ```bash
+# Skip to Step 4 (agents):
 git checkout part1-complete
+
+# See the finished project:
+git checkout part2-complete
+```
+
+Then install and verify:
+
+```bash
 npm install --ignore-scripts
 npx playwright test
 ```
