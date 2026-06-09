@@ -34,15 +34,15 @@ Open [`presentation/workshop.html`](presentation/workshop.html) in your browser 
 
 ## Workshop steps
 
-| Step | What you build | Key concept |
-|------|---------------|-------------|
-| 0 | Generate tests without any config → save as `baseline.spec.ts` | See the problem |
-| 1 | Create `.github/copilot-instructions.md` → regenerate | Global rules |
-| 2 | Create `.github/instructions/spec-files.instructions.md` | Scoped rules |
-| 3 | Create `.github/skills/generate-api-tests/SKILL.md` | Reusable procedures |
-| 4 | Create agents in `.github/agents/` (test-generator, code-reviewer, test-runner, qa-orchestrator) | Roles + delegation |
-| Challenge | Generate full coverage for `/albums` + `/albums/:id/photos` in 1 prompt | Put it all together |
-| Bonus | Create `.github/prompts/generate-api-tests.prompt.md` | Prompt files |
+| Step | What you build | Key concept | Guide |
+|------|---------------|-------------|-------|
+| 0 | Generate tests without any config → save as `baseline.spec.ts` | See the problem | [View](https://gist.github.com/JuanCarlosCalderon-vml/8152c69336035a65819b51424c5f7e30) |
+| 1 | Create `.github/copilot-instructions.md` → regenerate | Global rules | [View](https://gist.github.com/JuanCarlosCalderon-vml/8e926a6772a65628c5bcf481030d71a6) |
+| 2 | Create `.github/instructions/spec-files.instructions.md` | Scoped rules | [View](https://gist.github.com/JuanCarlosCalderon-vml/839076e4efcb5481c2837453f0dcd4fc) |
+| 3 | Create `.github/skills/generate-api-tests/SKILL.md` | Reusable procedures | [View](https://gist.github.com/JuanCarlosCalderon-vml/b1addf2b024901a93e86eb89e844c1ed) |
+| 4 | Create agents in `.github/agents/` (test-generator, code-reviewer, test-runner, qa-orchestrator) | Roles + delegation | [View](https://gist.github.com/JuanCarlosCalderon-vml/7d71f3cc0b9b188b419711b86359ac42) |
+| Challenge | Generate full coverage for `/albums` + `/albums/:id/photos` in 1 prompt | Put it all together | [View](https://gist.github.com/JuanCarlosCalderon-vml/ae39efa4397a0fa6456997c20da0c5d7) |
+| Bonus | Create `.github/prompts/generate-api-tests.prompt.md` | Prompt files | [View](https://gist.github.com/JuanCarlosCalderon-vml/d1b1ae2b94513b3dd24fced72bc208c9) |
 
 > **Tip:** Open a new chat (Cmd+L / Ctrl+L) before each step so Copilot picks up the new config.
 
@@ -97,6 +97,16 @@ tests/
 
 ## Resources
 
-- [VS Code Copilot Customization Docs](https://code.visualstudio.com/docs/copilot/copilot-customization)
-- [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents)
-- [JSONPlaceholder](https://jsonplaceholder.typicode.com)
+### Official documentation
+
+| Topic | Link |
+|-------|------|
+| Copilot customization overview | [VS Code Docs — Customization](https://code.visualstudio.com/docs/copilot/copilot-customization) |
+| Instructions (global + scoped) | [Custom instructions](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Reusable prompt files | [Prompt files](https://code.visualstudio.com/docs/copilot/copilot-customization#_reusable-prompt-files) |
+| Agent mode | [Chat agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode) |
+| Sub-agents & orchestration | [Subagents in VS Code](https://code.visualstudio.com/docs/copilot/agents/subagents) |
+
+### Practice API
+
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com) — free REST API used in this workshop (no auth required)
