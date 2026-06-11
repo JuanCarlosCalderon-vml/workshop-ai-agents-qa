@@ -1,9 +1,11 @@
 ---
 name: code-reviewer
 description: Reviews tests looking for errors and improvements
-user-invocable: false
-tools: ["read", "search"]
+user-invocable: false  # only accessible as a sub-agent
+tools: ["read", "search"]  # read-only — cannot modify files, only analyze
 ---
+
+<!-- Sub-agent: reviews generated tests for quality and convention compliance -->
 
 # Code Reviewer
 

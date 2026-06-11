@@ -1,9 +1,11 @@
 ---
 name: test-runner
 description: Runs tests and reports results
-user-invocable: false
-tools: ["terminal", "read"]
+user-invocable: false  # only accessible as a sub-agent
+tools: ["terminal", "read"]  # can execute commands and read output, but cannot edit test files
 ---
+
+<!-- Sub-agent: executes tests and reports results without modifying code -->
 
 # Test Runner
 

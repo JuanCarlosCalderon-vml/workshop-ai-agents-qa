@@ -1,9 +1,11 @@
 ---
 name: qa-orchestrator
 description: Orchestrates test generation, review, and execution
-tools: ["agent", "read", "search"]
-agents: ["test-generator", "code-reviewer", "test-runner"]
+tools: ["agent", "read", "search"]  # "agent" tool allows delegating to sub-agents
+agents: ["test-generator", "code-reviewer", "test-runner"]  # explicit list of sub-agents this orchestrator can invoke
 ---
+
+<!-- Orchestrator: coordinates the full QA workflow by delegating to specialized sub-agents -->
 
 # QA Orchestrator
 
